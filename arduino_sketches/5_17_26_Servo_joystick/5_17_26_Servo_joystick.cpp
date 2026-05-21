@@ -1,5 +1,6 @@
 //a way to include an already written code
 #include <Servo.h>
+#include <Arduino.h>
 
 //define a new Servo object
 Servo myServo;

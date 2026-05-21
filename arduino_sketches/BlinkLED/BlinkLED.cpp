@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 void setup() {
   // set LED pin to output
   pinMode(13, OUTPUT);

@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 void setup() {
   //intialize serial communication
   Serial.begin(9600);
