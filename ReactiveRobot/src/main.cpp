@@ -2,15 +2,24 @@
 #include <Servo.h>
 
 Servo myServo;  // create servo object to control a servo
+//set pin numbers
+const int trigPin = 11;
+const int echoPin = 12;
+const int LEDPin = 13;
+
+//variables for the distance sensor. long is for bigger int
+int distance;
+long duration;
 
 void setup() {
-  // put your setup code here, to run once:
-  myServo.attach(9);  // attaches the servo on pin 9 to the servo object
+  myServo.attach(9);  
   //distance sensor
-  pinMode(11,OUTPUT);
-  pinMode(12,INPUT);
+  pinMode(trigPin,OUTPUT);
+  pinMode(echoPin,INPUT);
   //LED
-  pinMode(13,OUTPUT);
+  pinMode(LEDPin,OUTPUT);
+
+  Serial.begin(9600);
 }
 
 void loop() {
@@ -32,9 +41,9 @@ void loop() {
   }
 
   //read distance
-  int sensor_output = digitalRead(11);
+  int sensor_output = digitalRead(echoPin);
   if (sensor_output>10){
-    digitalWrite(12, HIGH);
+    digitalWrite(LEDPin, HIGH);
   }
 
   
