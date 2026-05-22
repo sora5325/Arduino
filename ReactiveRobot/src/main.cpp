@@ -12,7 +12,7 @@ int distance;
 long duration;
 
 void setup() {
-  myServo.attach(9);  
+  myServo.attach(7);  
   //distance sensor
   pinMode(trigPin,OUTPUT);
   pinMode(echoPin,INPUT);
