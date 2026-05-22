@@ -33,10 +33,8 @@ void loop() {
 
   }else{
     //idle state
-    myServo.write(0);  
-    delay(2000);      
-    myServo.write(1020);
-    delay(2000);
+    myServo.write(0);      
+    myServo.write(180);
   }
 
   //reset, send pulse, pause
