@@ -25,18 +25,6 @@ void setup() {
 void loop() {
   int joystick_value = analogRead(A0);
 
-  if (joystick_value<400 || joystick_value>600){
-    //joystick is being moved
-    Serial.println(joystick_value);
-    int angle = map(joystick_value, 400, 600, 0, 180);
-    myServo.write(angle);
-
-  }else{
-    //idle state
-    myServo.write(0);      
-    myServo.write(180);
-  }
-
   //reset, send pulse, pause
   digitalWrite(trigPin, LOW);
   delayMicroseconds(20);
@@ -54,8 +42,15 @@ void loop() {
     delay(100);
     digitalWrite(LEDPin, LOW);
     delay(100);
+  }else if (joystick_value<400 || joystick_value>600){
+    //joystick is being moved
+    Serial.println(joystick_value);
+    int angle = map(joystick_value, 400, 600, 0, 180);
+    myServo.write(angle);
   }else{
-    digitalWrite(LEDPin, LOW);
+    //idle state
+    myServo.write(0);      
+    myServo.write(180);
   }
 
   
