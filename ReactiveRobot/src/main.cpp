@@ -34,25 +34,30 @@ void loop() {
   }else{
     //idle state
     myServo.write(0);  
-    delay(1000);      
+    delay(2000);      
     myServo.write(1020);
-    delay(1000);
+    delay(2000);
   }
 
   //reset, send pulse, pause
   digitalWrite(trigPin, LOW);
-  delay(2000);
+  delayMicroseconds(20);
   digitalWrite(trigPin, HIGH);
-  delay(10000);
+  delayMicroseconds(10);
   digitalWrite(trigPin, LOW);
 
-  //measures pulse duration. how long it took to change from high to low
+  //measures pulse duration. how long echo stayed HIGH
   //digitalRead only reads ON or OFF, which is insufficient here
   duration = pulseIn(echoPin, HIGH);
   distance = duration * 0.034 / 2; //in cm
 
-  if (distance<2.5){
+  if (distance<10){
     digitalWrite(LEDPin, HIGH);
+    delay(100);
+    digitalWrite(LEDPin, LOW);
+    delay(100);
+  }else{
+    digitalWrite(LEDPin, LOW);
   }
 
   
