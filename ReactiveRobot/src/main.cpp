@@ -23,7 +23,6 @@ void setup() {
 }
 
 void loop() {
-
   int joystick_value = analogRead(A0);
 
   if (joystick_value<400 || joystick_value>600){
@@ -40,9 +39,19 @@ void loop() {
     delay(1000);
   }
 
-  //read distance
-  int sensor_output = digitalRead(echoPin);
-  if (sensor_output>10){
+  //reset, send pulse, pause
+  digitalWrite(trigPin, LOW);
+  delay(2000);
+  digitalWrite(trigPin, HIGH);
+  delay(10000);
+  digitalWrite(trigPin, LOW);
+
+  //measures pulse duration. how long it took to change from high to low
+  //digitalRead only reads ON or OFF, which is insufficient here
+  duration = pulseIn(echoPin, HIGH);
+  distance = duration * 0.034 / 2; //in cm
+
+  if (distance<2.5){
     digitalWrite(LEDPin, HIGH);
   }
 
