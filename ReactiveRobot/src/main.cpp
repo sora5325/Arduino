@@ -36,8 +36,9 @@ void loop() {
   //digitalRead only reads ON or OFF, which is insufficient here
   duration = pulseIn(echoPin, HIGH);
   distance = duration * 0.034 / 2; //in cm
+  Serial.println(distance);
 
-  if (distance<10){
+  if (distance>0 && distance<10){
     digitalWrite(LEDPin, HIGH);
     delay(100);
     digitalWrite(LEDPin, LOW);
@@ -49,8 +50,10 @@ void loop() {
     myServo.write(angle);
   }else{
     //idle state
-    myServo.write(0);      
+    myServo.write(0);
+    delay(500);      
     myServo.write(180);
+    delay(500);
   }
 
   
