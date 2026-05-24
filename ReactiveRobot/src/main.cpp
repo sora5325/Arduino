@@ -1,11 +1,13 @@
 #include <Arduino.h>
 #include <Servo.h>
+#include <IRremote.hpp>
 
 Servo myServo;  // create servo object to control a servo
 //set pin numbers
 const int trigPin = 12;
 const int echoPin = 11;
 const int LEDPin = 13;
+const int IRPin = 2;
 
 //variables for the distance sensor. long is for bigger int
 int distance;
@@ -18,12 +20,14 @@ void setup() {
   pinMode(echoPin,INPUT);
   //LED
   pinMode(LEDPin,OUTPUT);
+  //start listening for IR inputs
+  IrReceiver.begin(IRPin);
 
   Serial.begin(9600);
 }
 
 void loop() {
-  int joystick_value = analogRead(A0);
+  //int joystick_value = analogRead(A0);
 
   //reset, send pulse, pause
   digitalWrite(trigPin, LOW);
@@ -36,19 +40,20 @@ void loop() {
   //digitalRead only reads ON or OFF, which is insufficient here
   duration = pulseIn(echoPin, HIGH);
   distance = duration * 0.034 / 2; //in cm
-  Serial.println(duration);
-  Serial.println(distance);
+  //Serial.println(duration);
+  //Serial.println(distance);
 
   if (distance>0 && distance<10){
     digitalWrite(LEDPin, HIGH);
     delay(100);
     digitalWrite(LEDPin, LOW);
     delay(100);
-  }else if (joystick_value<400 || joystick_value>600){
-    //joystick is being moved
-    Serial.println(joystick_value);
-    int angle = map(joystick_value, 0, 1023, 0, 180);
-    myServo.write(angle);
+  }else if (IrReceiver.decode()){
+    //true if signal was put into results = remote is being pressed
+    Serial.println(IrReceiver.decodedIRData.command);
+    IrReceiver.resume();
+    //int angle = map(joystick_value, 0, 1023, 0, 180);
+    //myServo.write(angle);
   }else{
     //idle state
     myServo.write(0);
