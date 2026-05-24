@@ -3,8 +3,8 @@
 
 Servo myServo;  // create servo object to control a servo
 //set pin numbers
-const int trigPin = 11;
-const int echoPin = 12;
+const int trigPin = 12;
+const int echoPin = 11;
 const int LEDPin = 13;
 
 //variables for the distance sensor. long is for bigger int
@@ -36,6 +36,7 @@ void loop() {
   //digitalRead only reads ON or OFF, which is insufficient here
   duration = pulseIn(echoPin, HIGH);
   distance = duration * 0.034 / 2; //in cm
+  Serial.println(duration);
   Serial.println(distance);
 
   if (distance>0 && distance<10){
@@ -46,7 +47,7 @@ void loop() {
   }else if (joystick_value<400 || joystick_value>600){
     //joystick is being moved
     Serial.println(joystick_value);
-    int angle = map(joystick_value, 400, 600, 0, 180);
+    int angle = map(joystick_value, 0, 1023, 0, 180);
     myServo.write(angle);
   }else{
     //idle state
