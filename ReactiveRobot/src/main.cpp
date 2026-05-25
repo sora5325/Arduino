@@ -1,12 +1,12 @@
 #include <Arduino.h>
 #include <Servo.h>
-#include <IRremote.hpp>
 
 Servo myServo;  // create servo object to control a servo
 //set pin numbers
 const int trigPin = 12;
 const int echoPin = 11;
 const int LEDPin = 13;
+const int buzzerPin = 2;
 
 //variables for the distance sensor. long is for bigger int
 int distance;
@@ -19,12 +19,13 @@ void setup() {
   pinMode(echoPin,INPUT);
   //LED
   pinMode(LEDPin,OUTPUT);
+  //passive buzzer
+  pinMode(buzzerPin,OUTPUT);
 
   Serial.begin(9600);
 }
 
 void loop() {
-  //int joystick_value = analogRead(A0);
 
   //reset, send pulse, pause
   digitalWrite(trigPin, LOW);
@@ -42,11 +43,15 @@ void loop() {
 
   if (distance>0 && distance<10){
     myServo.write(0);
-    
+    tone(buzzerPin, 200);
+
     digitalWrite(LEDPin, HIGH);
     delay(100);
     digitalWrite(LEDPin, LOW);
     delay(100);
+
+     noTone(buzzerPin);
+
   }else{
     //idle state
     myServo.write(0);
